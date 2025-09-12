@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "855215050648",
+    "project_id": "kisan-salahkaar",
+    "storage_bucket": "kisan-salahkaar.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855215050648:android:1dde7bbb163ab8243f25ed",
+        "android_client_info": {
+          "package_name": "com.example.kisansalahkaarapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtaY1S0e91zWGUlXEeBZ-pFcHtl9djY7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855215050648:android:4ec3c4f25463bc5a3f25ed",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtaY1S0e91zWGUlXEeBZ-pFcHtl9djY7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
