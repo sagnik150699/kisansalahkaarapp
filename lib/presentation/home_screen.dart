@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,20 +8,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Image.asset(
-            'assets/images/background.jpg',
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.jpg'),
             fit: BoxFit.cover,
-            color: const Color.fromARGB(128, 0, 0, 0),
-            colorBlendMode: BlendMode.darken,
           ),
-          Center(
-            child: SingleChildScrollView(
+        ),
+        child: ShaderMask(
+          shaderCallback: (bounds) => const LinearGradient(
+            colors: [Colors.black, Colors.transparent],
+            begin: Alignment.bottomCenter,
+            end: Alignment.center,
+          ).createShader(bounds),
+          blendMode: BlendMode.darken,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
+                  const SizedBox(height: 64.0),
                   Text(
                     'Kisan Salahkaar',
                     textAlign: TextAlign.center,
@@ -44,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.white70,
                         ),
                   ),
-                  const SizedBox(height: 48.0),
+                  const Spacer(),
                   ElevatedButton.icon(
                     icon: const Icon(Icons.agriculture_outlined),
                     onPressed: () => context.go('/crop-recommendations'),
@@ -62,11 +70,12 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () => context.go('/pest-and-disease'),
                     label: const Text('Pest & Disease Identification'),
                   ),
+                  const SizedBox(height: 32.0),
                 ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
