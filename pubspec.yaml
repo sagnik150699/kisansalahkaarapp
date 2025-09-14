@@ -20,7 +20,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
 
 
-dev_-dependencies:
+dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
