@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:myapp/core/theme.dart';
-import 'package:myapp/core/router.dart';
-import 'package:myapp/presentation/providers/theme_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/router.dart';
+import 'core/theme.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: const MyApp(),
+    const ProviderScope(
+      child: MyApp(),
     ),
   );
 }
@@ -18,16 +16,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
-      builder: (context, themeProvider, child) {
-        return MaterialApp.router(
-          title: 'AgriTech App',
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: themeProvider.themeMode,
-          routerConfig: router,
-        );
-      },
+    return MaterialApp.router(
+      title: 'Kisan Salahkaar',
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system, // Or make this dynamic
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

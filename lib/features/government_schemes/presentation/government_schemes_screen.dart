@@ -1,75 +1,107 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/features/government_schemes/domain/government_schemes_repository.dart';
-import 'package:myapp/features/government_schemes/presentation/government_schemes_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'government_schemes_provider.dart';
 
-import '../data/government_schemes_datasource.dart';
-
-class GovernmentSchemesScreen extends StatefulWidget {
+class GovernmentSchemesScreen extends ConsumerWidget {
   const GovernmentSchemesScreen({super.key});
 
   @override
-  State<GovernmentSchemesScreen> createState() =>
-      _GovernmentSchemesScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final schemesAsync = ref.watch(governmentSchemesProvider);
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
-class _GovernmentSchemesScreenState extends State<GovernmentSchemesScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => GovernmentSchemesProvider(
-        GovernmentSchemesRepository(GovernmentSchemesDatasource()),
-      )..getGovernmentSchemes(),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Government Schemes')),
-        body: Consumer<GovernmentSchemesProvider>(
-          builder: (context, provider, child) {
-            if (provider.state == GovernmentSchemesState.loading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (provider.state == GovernmentSchemesState.error) {
-              return Center(
-                child: Text(
-                  'Error: ${provider.errorMessage}',
-                  textAlign: TextAlign.center,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Government Schemes'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                'Explore Agricultural Schemes',
+                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                'Find relevant government schemes to support your farming activities.',
+                style: textTheme.bodyMedium,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Search for schemes...',
+                  prefixIcon: Icon(Icons.search),
                 ),
-              );
-            }
-
-            return ListView.builder(
-              itemCount: provider.schemes.length,
-              itemBuilder: (context, index) {
-                final scheme = provider.schemes[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 8.0,
+                onChanged: (query) {
+                  // TODO: Implement search functionality
+                },
+              ),
+            ),
+            const SizedBox(height: 24),
+            Expanded(
+              child: schemesAsync.when(
+                data: (schemes) => ListView.builder(
+                  itemCount: schemes.length,
+                  itemBuilder: (context, index) {
+                    final scheme = schemes[index];
+                    return Card(
+                      elevation: 2,
+                      child: ExpansionTile(
+                        title: Text(
+                          scheme.name,
+                          style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        leading: Icon(Icons.account_balance, color: colorScheme.primary),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  scheme.description,
+                                  style: textTheme.bodyMedium,
+                                ),
+                                const SizedBox(height: 16),
+                                Wrap(
+                                  spacing: 12,
+                                  runSpacing: 8,
+                                  children: scheme.benefits
+                                      .map((benefit) => Chip(
+                                            label: Text(benefit),
+                                            avatar: Icon(Icons.check_circle_outline, color: colorScheme.primary),
+                                          ))
+                                      .toList(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, stack) => Center(
+                  child: Text(
+                    'Failed to load schemes: $err',
+                    style: textTheme.bodyMedium?.copyWith(color: colorScheme.error),
                   ),
-                  child: ListTile(
-                    title: Text(scheme.name),
-                    subtitle: Text(scheme.description),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () async {
-                      final Uri url = Uri.parse(scheme.url);
-                      // Capture the context-dependent object before the async gap.
-                      final scaffoldMessenger = ScaffoldMessenger.of(context);
-
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(url);
-                      } else {
-                        if (!mounted) return;
-                        scaffoldMessenger.showSnackBar(
-                          const SnackBar(content: Text('Could not launch URL')),
-                        );
-                      }
-                    },
-                  ),
-                );
-              },
-            );
-          },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

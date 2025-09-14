@@ -1,63 +1,114 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myapp/presentation/widgets/feature_card.dart';
+import 'widgets/feature_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const SizedBox(height: 64.0),
-              Text(
-                'Kisan Salahkaar',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              colorScheme.primary.withOpacity(0.1),
+              colorScheme.surface,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 200.0,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              flexibleSpace: FlexibleSpaceBar(
+                background: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                  child: Image.asset(
+                    'assets/images/background.jpg',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-              const SizedBox(height: 16.0),
-              Text(
-                'Your AI companion for smart farming',
-                textAlign: TextAlign.center,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(color: Colors.black87),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Welcome, Farmer!',
+                      style: textTheme.displayLarge?.copyWith(
+                        color: colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Your AI companion for smart farming.',
+                      style: textTheme.titleLarge?.copyWith(
+                        color: colorScheme.onSurface.withOpacity(0.7),
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    Text(
+                      'Explore Features',
+                      style: textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
               ),
-              const SizedBox(height: 32.0),
-              Expanded(
-                child: GridView.count(
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverGrid(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 16.0,
-                  mainAxisSpacing: 16.0,
-                  children: <Widget>[
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.9,
+                ),
+                delegate: SliverChildListDelegate(
+                  [
                     FeatureCard(
-                      title: 'Get Crop Recommendations',
-                      icon: Icons.agriculture_outlined,
-                      onTap: () => context.go('/crop-recommendations'),
+                      title: 'Crop Advisor',
+                      icon: Icons.grass,
+                      onTap: () => context.go('/crop-recommendation'),
                     ),
                     FeatureCard(
-                      title: 'Government Schemes',
-                      icon: Icons.account_balance_outlined,
+                      title: 'Govt. Schemes',
+                      icon: Icons.account_balance,
                       onTap: () => context.go('/government-schemes'),
                     ),
                     FeatureCard(
-                      title: 'Pest & Disease Identification',
-                      icon: Icons.bug_report_outlined,
-                      onTap: () => context.go('/pest-and-disease'),
+                      title: 'Pest & Disease',
+                      icon: Icons.bug_report,
+                      onTap: () => context.go('/pest-disease'),
+                    ),
+                    FeatureCard(
+                      title: 'Market Prices',
+                      icon: Icons.bar_chart,
+                      onTap: () {
+                        // TODO: Implement navigation
+                      },
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

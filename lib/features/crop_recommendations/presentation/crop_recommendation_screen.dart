@@ -1,205 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
-import 'package:myapp/features/crop_recommendations/presentation/crop_recommendation_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'crop_recommendation_provider.dart';
 
-class CropRecommendationScreen extends StatefulWidget {
+class CropRecommendationScreen extends ConsumerWidget {
   const CropRecommendationScreen({super.key});
 
   @override
-  CropRecommendationScreenState createState() =>
-      CropRecommendationScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recommendationAsync = ref.watch(cropRecommendationProvider);
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
-class CropRecommendationScreenState extends State<CropRecommendationScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _locationController = TextEditingController();
-  final _soilTypeController = TextEditingController();
-  final _weatherController = TextEditingController();
-  bool _isFetchingLocation = false;
-
-  Future<void> _getCurrentLocation() async {
-    setState(() {
-      _isFetchingLocation = true;
-    });
-
-    try {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location services are disabled.')),
-        );
-        return;
-      }
-
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location permissions are denied')),
-          );
-          return;
-        }
-      }
-
-      if (permission == LocationPermission.deniedForever) {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Location permissions are permanently denied, we cannot request permissions.',
-            ),
-          ),
-        );
-        return;
-      }
-
-      Position position = await Geolocator.getCurrentPosition();
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      if (placemarks.isNotEmpty) {
-        Placemark place = placemarks[0];
-        String address =
-            "${place.locality}, ${place.administrativeArea}, ${place.country}";
-        _locationController.text = address;
-      }
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error getting location: $e')));
-    } finally {
-      setState(() {
-        _isFetchingLocation = false;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Crop Recommendations')),
+      appBar: AppBar(
+        title: const Text('Crop Advisor'),
+      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextFormField(
-                controller: _locationController,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Get Smart Crop Recommendations',
+                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Enter your location and soil type to get AI-powered crop suggestions.',
+                style: textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 32),
+              TextField(
                 decoration: const InputDecoration(
-                  labelText: 'Location',
-                  hintText: 'E.g., Punjab, India',
-                  border: OutlineInputBorder(),
+                  labelText: 'Enter Location (e.g., "Delhi, India")',
+                  prefixIcon: Icon(Icons.location_on),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a location';
-                  }
-                  return null;
+                onSubmitted: (location) {
+                  // For now, we are not using the location to fetch recommendations
+                  // In a real app, this would trigger a new recommendation fetch
                 },
               ),
-              const SizedBox(height: 16.0),
-              ElevatedButton.icon(
-                onPressed: _isFetchingLocation ? null : _getCurrentLocation,
-                icon: _isFetchingLocation
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(),
-                      )
-                    : const Icon(LucideIcons.mapPin),
-                label: const Text('Use My Location'),
-              ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _soilTypeController,
-                decoration: const InputDecoration(
-                  labelText: 'Soil Type',
-                  hintText: 'E.g., Alluvial, Black Soil',
-                  border: OutlineInputBorder(),
+              const SizedBox(height: 24),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Manually trigger a refresh
+                    ref.refresh(cropRecommendationProvider);
+                  },
+                  child: const Text('Get Recommendation'),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a soil type';
-                  }
-                  return null;
-                },
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _weatherController,
-                decoration: const InputDecoration(
-                  labelText: 'Weather Patterns',
-                  hintText: 'E.g., Hot and Humid',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter weather patterns';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 32.0),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Provider.of<CropRecommendationProvider>(
-                      context,
-                      listen: false,
-                    ).fetchRecommendations(
-                      location: _locationController.text,
-                      soilType: _soilTypeController.text,
-                      weather: _weatherController.text,
-                    );
-                  }
-                },
-                child: const Text('Get Recommendations'),
-              ),
-              const SizedBox(height: 16.0),
-              Consumer<CropRecommendationProvider>(
-                builder: (context, provider, child) {
-                  if (provider.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (provider.error != null) {
-                    return Text(
-                      'Error: ${provider.error}',
-                      style: const TextStyle(color: Colors.red),
-                    );
-                  }
-
-                  if (provider.recommendations.isEmpty) {
-                    return const SizedBox.shrink();
-                  }
-
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: provider.recommendations.length,
-                    itemBuilder: (context, index) {
-                      final recommendation = provider.recommendations[index];
-                      return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: ListTile(
-                          title: Text(recommendation.cropName),
-                          subtitle: Text(recommendation.description),
+              const SizedBox(height: 32),
+              recommendationAsync.when(
+                data: (recommendation) => Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          recommendation.cropName,
+                          style: textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.primary,
+                          ),
                         ),
-                      );
-                    },
-                  );
-                },
+                        const SizedBox(height: 16),
+                        Text(
+                          recommendation.description,
+                          style: textTheme.bodyLarge,
+                        ),
+                        const SizedBox(height: 24),
+                        Wrap(
+                          spacing: 16,
+                          runSpacing: 8,
+                          children: [
+                            Chip(
+                              label: Text('Soil: ${recommendation.soilType}'),
+                              avatar: const Icon(Icons.landscape),
+                            ),
+                            Chip(
+                              label: Text('Season: ${recommendation.plantingSeason}'),
+                              avatar: const Icon(Icons.thermostat),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, stack) => Center(
+                  child: Text(
+                    'Failed to get recommendation: $err',
+                    style: textTheme.bodyMedium?.copyWith(color: colorScheme.error),
+                  ),
+                ),
               ),
             ],
           ),
