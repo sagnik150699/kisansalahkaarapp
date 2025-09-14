@@ -1,17 +1,19 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'pest_and_disease_provider.dart';
+import 'package:kisan_salahkaar/features/pest_and_disease/domain/pest_and_disease_model.dart';
+import 'package:kisan_salahkaar/features/pest_and_disease/domain/pest_and_disease_repository.dart';
+import 'package:kisan_salahkaar/features/pest_and_disease/data/pest_and_disease_datasource.dart';
 
-class PestAndDiseaseScreen extends ConsumerStatefulWidget {
+class PestAndDiseaseScreen extends StatefulWidget {
   const PestAndDiseaseScreen({super.key});
 
   @override
-  ConsumerState<PestAndDiseaseScreen> createState() => _PestAndDiseaseScreenState();
+  State<PestAndDiseaseScreen> createState() => _PestAndDiseaseScreenState();
 }
 
-class _PestAndDiseaseScreenState extends ConsumerState<PestAndDiseaseScreen> {
+class _PestAndDiseaseScreenState extends State<PestAndDiseaseScreen> {
+  Future<PestAndDisease?>? _pestAndDiseaseFuture;
   Uint8List? _imageData;
 
   Future<void> _pickImage() async {
@@ -22,14 +24,14 @@ class _PestAndDiseaseScreenState extends ConsumerState<PestAndDiseaseScreen> {
       final bytes = await pickedFile.readAsBytes();
       setState(() {
         _imageData = bytes;
+        final repository = PestAndDiseaseRepositoryImpl(datasource: PestAndDiseaseDatasource());
+        _pestAndDiseaseFuture = repository.identifyPestOrDisease(bytes);
       });
-      ref.read(pestAndDiseaseProvider.notifier).identifyPestOrDisease(bytes);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final pestState = ref.watch(pestAndDiseaseProvider);
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -83,10 +85,23 @@ class _PestAndDiseaseScreenState extends ConsumerState<PestAndDiseaseScreen> {
                 ),
               ),
               const SizedBox(height: 32),
-              pestState.when(
-                data: (pest) => pest == null
-                    ? const SizedBox.shrink()
-                    : Card(
+              if (_pestAndDiseaseFuture != null)
+                FutureBuilder<PestAndDisease?>(
+                  future: _pestAndDiseaseFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          'Failed to identify pest/disease: ${snapshot.error}',
+                          style: textTheme.bodyMedium?.copyWith(color: colorScheme.error),
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    } else if (snapshot.hasData) {
+                      final pest = snapshot.data!;
+                      return Card(
                         elevation: 4,
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -117,16 +132,12 @@ class _PestAndDiseaseScreenState extends ConsumerState<PestAndDiseaseScreen> {
                             ],
                           ),
                         ),
-                      ),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, stack) => Center(
-                  child: Text(
-                    'Failed to identify pest/disease: $err',
-                    style: textTheme.bodyMedium?.copyWith(color: colorScheme.error),
-                    textAlign: TextAlign.center,
-                  ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
                 ),
-              ),
             ],
           ),
         ),
