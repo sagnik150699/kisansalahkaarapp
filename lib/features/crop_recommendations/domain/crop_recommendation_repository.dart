@@ -1,8 +1,12 @@
-import '../data/crop_recommendation_datasource.dart';
-import 'crop_recommendation_model.dart';
+import 'package:myapp/features/crop_recommendations/data/crop_recommendation_datasource.dart';
+import 'package:myapp/features/crop_recommendations/domain/crop_recommendation_model.dart';
 
 abstract class CropRecommendationRepository {
-  Future<CropRecommendation> getRecommendation(String location);
+  Future<CropRecommendation> getRecommendation({
+    required String location,
+    required String soilType,
+    required String weatherPattern,
+  });
 }
 
 class CropRecommendationRepositoryImpl implements CropRecommendationRepository {
@@ -11,8 +15,15 @@ class CropRecommendationRepositoryImpl implements CropRecommendationRepository {
   CropRecommendationRepositoryImpl({required this.datasource});
 
   @override
-  Future<CropRecommendation> getRecommendation(String location) async {
-    // In a real app, you'd use the location to fetch data
-    return datasource.getRecommendation();
+  Future<CropRecommendation> getRecommendation({
+    required String location,
+    required String soilType,
+    required String weatherPattern,
+  }) async {
+    return datasource.getRecommendation(
+      location: location,
+      soilType: soilType,
+      weatherPattern: weatherPattern,
+    );
   }
 }

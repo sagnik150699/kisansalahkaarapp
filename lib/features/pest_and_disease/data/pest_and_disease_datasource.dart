@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import '../domain/pest_and_disease_model.dart';
+import 'package:myapp/features/pest_and_disease/domain/pest_and_disease_model.dart';
 
 class PestAndDiseaseDatasource {
   Future<PestAndDisease> identifyPestOrDisease(Uint8List image) async {

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/government_schemes_datasource.dart';
-import '../domain/government_scheme_model.dart';
-import '../domain/government_schemes_repository.dart';
+import 'package:myapp/features/government_schemes/data/government_schemes_datasource.dart';
+import 'package:myapp/features/government_schemes/domain/government_scheme_model.dart';
+import 'package:myapp/features/government_schemes/domain/government_schemes_repository.dart';
 
 final governmentSchemesDatasourceProvider = Provider((ref) => GovernmentSchemesDatasource());
 

@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import '../data/pest_and_disease_datasource.dart';
-import 'pest_and_disease_model.dart';
+import 'package:myapp/features/pest_and_disease/data/pest_and_disease_datasource.dart';
+import 'package:myapp/features/pest_and_disease/domain/pest_and_disease_model.dart';
 
 abstract class PestAndDiseaseRepository {
   Future<PestAndDisease> identifyPestOrDisease(Uint8List image);

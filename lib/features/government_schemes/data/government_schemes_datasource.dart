@@ -1,4 +1,4 @@
-import '../domain/government_scheme_model.dart';
+import 'package:myapp/features/government_schemes/domain/government_scheme_model.dart';
 
 class GovernmentSchemesDatasource {
   Future<List<GovernmentScheme>> getAllSchemes() async {
