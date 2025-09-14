@@ -9,7 +9,8 @@ class CropRecommendationScreen extends StatefulWidget {
   const CropRecommendationScreen({super.key});
 
   @override
-  CropRecommendationScreenState createState() => CropRecommendationScreenState();
+  CropRecommendationScreenState createState() =>
+      CropRecommendationScreenState();
 }
 
 class CropRecommendationScreenState extends State<CropRecommendationScreen> {
@@ -50,24 +51,31 @@ class CropRecommendationScreenState extends State<CropRecommendationScreen> {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text('Location permissions are permanently denied, we cannot request permissions.')),
+            content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.',
+            ),
+          ),
         );
         return;
       }
 
       Position position = await Geolocator.getCurrentPosition();
-      List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
 
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks[0];
-        String address = "${place.locality}, ${place.administrativeArea}, ${place.country}";
+        String address =
+            "${place.locality}, ${place.administrativeArea}, ${place.country}";
         _locationController.text = address;
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error getting location: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error getting location: $e')));
     } finally {
       setState(() {
         _isFetchingLocation = false;
@@ -78,9 +86,7 @@ class CropRecommendationScreenState extends State<CropRecommendationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Crop Recommendations'),
-      ),
+      appBar: AppBar(title: const Text('Crop Recommendations')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -106,7 +112,11 @@ class CropRecommendationScreenState extends State<CropRecommendationScreen> {
               ElevatedButton.icon(
                 onPressed: _isFetchingLocation ? null : _getCurrentLocation,
                 icon: _isFetchingLocation
-                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(),
+                      )
                     : const Icon(LucideIcons.mapPin),
                 label: const Text('Use My Location'),
               ),
@@ -144,7 +154,10 @@ class CropRecommendationScreenState extends State<CropRecommendationScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    Provider.of<CropRecommendationProvider>(context, listen: false).fetchRecommendations(
+                    Provider.of<CropRecommendationProvider>(
+                      context,
+                      listen: false,
+                    ).fetchRecommendations(
                       location: _locationController.text,
                       soilType: _soilTypeController.text,
                       weather: _weatherController.text,
@@ -161,7 +174,10 @@ class CropRecommendationScreenState extends State<CropRecommendationScreen> {
                   }
 
                   if (provider.error != null) {
-                    return Text('Error: ${provider.error}', style: const TextStyle(color: Colors.red));
+                    return Text(
+                      'Error: ${provider.error}',
+                      style: const TextStyle(color: Colors.red),
+                    );
                   }
 
                   if (provider.recommendations.isEmpty) {

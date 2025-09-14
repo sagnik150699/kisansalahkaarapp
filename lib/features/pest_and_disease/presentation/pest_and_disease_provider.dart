@@ -5,12 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:myapp/features/pest_and_disease/domain/pest_and_disease_model.dart';
 import 'package:myapp/features/pest_and_disease/domain/pest_and_disease_repository.dart';
 
-enum PestAndDiseaseState {
-  initial,
-  loading,
-  loaded,
-  error,
-}
+enum PestAndDiseaseState { initial, loading, loaded, error }
 
 class PestAndDiseaseProvider with ChangeNotifier {
   final PestAndDiseaseRepository _repository;

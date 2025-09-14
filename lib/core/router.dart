@@ -6,10 +6,7 @@ import 'package:myapp/presentation/home_screen.dart';
 
 final GoRouter router = GoRouter(
   routes: <GoRoute>[
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const HomeScreen(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
     GoRoute(
       path: '/crop-recommendations',
       builder: (context, state) => const CropRecommendationScreen(),

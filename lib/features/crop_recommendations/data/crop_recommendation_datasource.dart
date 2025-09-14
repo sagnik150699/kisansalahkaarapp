@@ -5,8 +5,8 @@ import 'package:myapp/features/crop_recommendations/domain/crop_recommendation_r
 class CropRecommendationDataSource implements CropRecommendationRepository {
   final FirebaseFunctions _functions;
 
-  CropRecommendationDataSource({FirebaseFunctions? functions}) 
-      : _functions = functions ?? FirebaseFunctions.instance;
+  CropRecommendationDataSource({FirebaseFunctions? functions})
+    : _functions = functions ?? FirebaseFunctions.instance;
 
   @override
   Future<List<CropRecommendation>> getCropRecommendations({
@@ -14,7 +14,9 @@ class CropRecommendationDataSource implements CropRecommendationRepository {
     required String soilType,
     required String weather,
   }) async {
-    final HttpsCallable callable = _functions.httpsCallable('getCropRecommendations');
+    final HttpsCallable callable = _functions.httpsCallable(
+      'getCropRecommendations',
+    );
     final HttpsCallableResult result = await callable.call(<String, dynamic>{
       'location': location,
       'soilType': soilType,

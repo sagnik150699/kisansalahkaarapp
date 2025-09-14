@@ -7,7 +7,7 @@ class CropRecommendationProvider with ChangeNotifier {
   final CropRecommendationRepository _repository;
 
   CropRecommendationProvider({CropRecommendationRepository? repository})
-      : _repository = repository ?? CropRecommendationDataSource();
+    : _repository = repository ?? CropRecommendationDataSource();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

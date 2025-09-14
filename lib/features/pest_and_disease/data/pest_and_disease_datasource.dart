@@ -10,7 +10,8 @@ class PestAndDiseaseDatasource {
         name: 'Late Blight',
         description: 'A fungal disease that affects potatoes and tomatoes.',
         remedy: 'Apply fungicides and remove infected plants.',
-        imageUrl: 'https://www.gardeningknowhow.com/wp-content/uploads/2021/06/tomato-late-blight.jpg',
+        imageUrl:
+            'https://www.gardeningknowhow.com/wp-content/uploads/2021/06/tomato-late-blight.jpg',
       );
     });
   }

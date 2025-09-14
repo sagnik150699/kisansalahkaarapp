@@ -10,7 +10,8 @@ class GovernmentSchemesScreen extends StatefulWidget {
   const GovernmentSchemesScreen({super.key});
 
   @override
-  State<GovernmentSchemesScreen> createState() => _GovernmentSchemesScreenState();
+  State<GovernmentSchemesScreen> createState() =>
+      _GovernmentSchemesScreenState();
 }
 
 class _GovernmentSchemesScreenState extends State<GovernmentSchemesScreen> {
@@ -18,14 +19,10 @@ class _GovernmentSchemesScreenState extends State<GovernmentSchemesScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => GovernmentSchemesProvider(
-        GovernmentSchemesRepository(
-          GovernmentSchemesDatasource(),
-        ),
+        GovernmentSchemesRepository(GovernmentSchemesDatasource()),
       )..getGovernmentSchemes(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Government Schemes'),
-        ),
+        appBar: AppBar(title: const Text('Government Schemes')),
         body: Consumer<GovernmentSchemesProvider>(
           builder: (context, provider, child) {
             if (provider.state == GovernmentSchemesState.loading) {
@@ -58,15 +55,13 @@ class _GovernmentSchemesScreenState extends State<GovernmentSchemesScreen> {
                       final Uri url = Uri.parse(scheme.url);
                       // Capture the context-dependent object before the async gap.
                       final scaffoldMessenger = ScaffoldMessenger.of(context);
-                      
+
                       if (await canLaunchUrl(url)) {
                         await launchUrl(url);
                       } else {
                         if (!mounted) return;
                         scaffoldMessenger.showSnackBar(
-                          const SnackBar(
-                            content: Text('Could not launch URL'),
-                          ),
+                          const SnackBar(content: Text('Could not launch URL')),
                         );
                       }
                     },

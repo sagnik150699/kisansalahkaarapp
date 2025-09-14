@@ -12,14 +12,10 @@ class PestAndDiseaseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => PestAndDiseaseProvider(
-        PestAndDiseaseRepository(
-          PestAndDiseaseDatasource(),
-        ),
+        PestAndDiseaseRepository(PestAndDiseaseDatasource()),
       ),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Pest & Disease Identification'),
-        ),
+        appBar: AppBar(title: const Text('Pest & Disease Identification')),
         body: Consumer<PestAndDiseaseProvider>(
           builder: (context, provider, child) {
             return SingleChildScrollView(

@@ -1,61 +1,81 @@
-# Kisan Salahkaar - Flutter App
+# Kisan Salahkaar - AI Farming Companion
 
-This is a Flutter mobile application for the "Kisan Salahkaar" platform. It is designed to provide farmers with AI-powered assistance for crop recommendations, pest/disease identification, and real-time market and weather information.
+"Kisan Salahkaar" is an AI-powered mobile application built with Flutter to assist farmers in making informed decisions for their agricultural practices. The app provides crop recommendations, information about government schemes, and tools for identifying pests and diseases.
 
-## Project Overview
+## Features
 
-This app is the mobile counterpart to the existing "Kisan Salahkaar" web application. It connects to the same Firebase backend to ensure a seamless user experience and data consistency across both platforms.
+*   **Crop Recommendations**: Get intelligent crop suggestions based on your location and soil type.
+*   **Government Schemes**: Stay updated with the latest agricultural schemes and subsidies from the government.
+*   **Pest & Disease Identification**: Upload images of affected crops to identify pests and diseases and get instant remedies.
+*   **Modern UI/UX**: A clean, intuitive, and responsive user interface built with Material Design 3.
+*   **Light & Dark Mode**: Seamlessly switch between light and dark themes for comfortable viewing.
 
-## Core Features
+## Technology Stack
 
-*   **Localized Crop Recommendations**: Get personalized crop suggestions based on your location, soil type, and weather.
-*   **Pest & Disease Identification**: Upload a photo of an affected plant to get an AI-powered diagnosis and treatment advice.
-*   **Real-time Data Widgets**: Stay updated with weather alerts and local market prices.
-*   **Multilingual & Voice-Enabled**: The app supports multiple Indian languages and includes voice-to-text and text-to-speech for an accessible experience.
+*   **Frontend**: Flutter
+*   **Backend & AI**: Firebase (using `firebase_ai` for generative AI features)
+*   **Routing**: `go_router`
+*   **State Management**: `provider`
+*   **Typography**: `google_fonts`
 
 ## Getting Started
 
-### 1. Prerequisites
-
-*   Flutter SDK installed.
-*   An editor like VS Code or Android Studio with the Flutter plugin.
-*   A configured Firebase project.
-
-### 2. Setup
-
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-repo/kisan-salahkaar-flutter.git
-    cd kisan-salahkaar-flutter
+    git clone https://github.com/your-username/kisan-salahkaar.git
+    cd kisan-salahkaar
     ```
 
-2.  **Configure Firebase:**
-    *   This project requires a `firebase_options.dart` file to connect to your Firebase project.
-    *   Use the FlutterFire CLI to generate this file:
-        ```bash
-        flutterfire configure
-        ```
-    *   This will guide you through the process of selecting your Firebase project and generating the necessary configuration for Android, iOS, and web. Ensure the generated `lib/firebase_options.dart` file is present.
-
-3.  **Install dependencies:**
+2.  **Install dependencies:**
     ```bash
     flutter pub get
     ```
 
-### 3. Running the App
+3.  **Run the app:**
+    ```bash
+    flutter run
+    ```
 
-```bash
-flutter run
+## Project Structure
+
+The project follows a feature-first architecture, with each feature having its own `data`, `domain`, and `presentation` layers.
+
+```
+lib
+├── core/
+│   ├── router.dart
+│   └── theme.dart
+├── features/
+│   ├── crop_recommendations/
+│   │   ├── data/
+│   │   ├── domain/
+│   │   └── presentation/
+│   ├── government_schemes/
+│   │   ├── data/
+│   │   ├── domain/
+│   │   └── presentation/
+│   └── pest_and_disease/
+│       ├── data/
+│       ├── domain/
+│       └── presentation/
+├── presentation/
+│   ├── home_screen.dart
+│   ├── providers/
+│   └── widgets/
+└── main.dart
 ```
 
-This will launch the app on your connected device or emulator.
+## Visual Design
 
-## Architecture
+The app is designed with a modern and visually appealing aesthetic, following Material Design 3 principles. It features a vibrant color palette, expressive typography, and interactive UI components to provide an engaging user experience.
 
-*   **Framework**: Flutter
-*   **State Management**: `provider`
-*   **Navigation**: `go_router`
-*   **Backend**: Firebase (Authentication, Cloud Functions)
-*   **UI**: Material 3
+## Accessibility (A11Y)
 
-The project follows a feature-first architectural pattern, with code organized into `features`, `core`, `domain`, and `presentation` layers to ensure scalability and maintainability.
+The app is designed to be accessible to all users, with a focus on clear navigation, readable text, and support for various screen sizes.
+
+## Author
+
+**Sagnik Bhattacharya**
+*   **LinkedIn**: [linkedin.com/in/sagnik-bhattacharya-916b9463/](https://linkedin.com/in/sagnik-bhattacharya-916b9463/)
+*   **Udemy**: [udemy.com/user/sagnik-bhattacharya-5/](https://www.udemy.com/user/sagnik-bhattacharya-5/)
+*   **YouTube**: [youtube.com/@sagnikteaches](https://www.youtube.com/@sagnikteaches)

@@ -7,18 +7,22 @@ class GovernmentSchemesDatasource {
       return [
         GovernmentScheme(
           name: 'Pradhan Mantri Kisan Samman Nidhi',
-          description: 'An income support scheme for small and marginal farmers.',
+          description:
+              'An income support scheme for small and marginal farmers.',
           url: 'https://pmkisan.gov.in/',
         ),
         GovernmentScheme(
           name: 'Pradhan Mantri Fasal Bima Yojana',
-          description: 'A crop insurance scheme to protect against crop failure.',
+          description:
+              'A crop insurance scheme to protect against crop failure.',
           url: 'https://pmfby.gov.in/',
         ),
         GovernmentScheme(
           name: 'Kisan Credit Card',
-          description: 'A credit scheme to provide affordable credit for farmers.',
-          url: 'https://www.sbi.co.in/web/agri-rural/agriculture-banking/crop-finance/kisan-credit-card',
+          description:
+              'A credit scheme to provide affordable credit for farmers.',
+          url:
+              'https://www.sbi.co.in/web/agri-rural/agriculture-banking/crop-finance/kisan-credit-card',
         ),
       ];
     });

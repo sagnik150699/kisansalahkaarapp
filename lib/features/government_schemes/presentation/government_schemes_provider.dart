@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/features/government_schemes/domain/government_scheme_model.dart';
 import 'package:myapp/features/government_schemes/domain/government_schemes_repository.dart';
 
-enum GovernmentSchemesState {
-  initial,
-  loading,
-  loaded,
-  error,
-}
+enum GovernmentSchemesState { initial, loading, loaded, error }
 
 class GovernmentSchemesProvider with ChangeNotifier {
   final GovernmentSchemesRepository _repository;
