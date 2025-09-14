@@ -1,14 +1,19 @@
-import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:myapp/features/pest_and_disease/data/pest_and_disease_datasource.dart';
-import 'package:myapp/features/pest_and_disease/domain/pest_and_disease_model.dart';
+import '../data/pest_and_disease_datasource.dart';
+import 'pest_and_disease_model.dart';
 
-class PestAndDiseaseRepository {
-  final PestAndDiseaseDatasource _datasource;
+abstract class PestAndDiseaseRepository {
+  Future<PestAndDisease> identifyPestOrDisease(Uint8List image);
+}
 
-  PestAndDiseaseRepository(this._datasource);
+class PestAndDiseaseRepositoryImpl implements PestAndDiseaseRepository {
+  final PestAndDiseaseDatasource datasource;
 
-  Future<PestAndDisease> identifyPestOrDisease(File image) {
-    return _datasource.identifyPestOrDisease(image);
+  PestAndDiseaseRepositoryImpl({required this.datasource});
+
+  @override
+  Future<PestAndDisease> identifyPestOrDisease(Uint8List image) async {
+    return datasource.identifyPestOrDisease(image);
   }
 }

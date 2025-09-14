@@ -1,12 +1,17 @@
-import 'package:myapp/features/government_schemes/data/government_schemes_datasource.dart';
-import 'package:myapp/features/government_schemes/domain/government_scheme_model.dart';
+import '../data/government_schemes_datasource.dart';
+import 'government_scheme_model.dart';
 
-class GovernmentSchemesRepository {
-  final GovernmentSchemesDatasource _datasource;
+abstract class GovernmentSchemesRepository {
+  Future<List<GovernmentScheme>> getAllSchemes();
+}
 
-  GovernmentSchemesRepository(this._datasource);
+class GovernmentSchemesRepositoryImpl implements GovernmentSchemesRepository {
+  final GovernmentSchemesDatasource datasource;
 
-  Future<List<GovernmentScheme>> getGovernmentSchemes() {
-    return _datasource.getGovernmentSchemes();
+  GovernmentSchemesRepositoryImpl({required this.datasource});
+
+  @override
+  Future<List<GovernmentScheme>> getAllSchemes() async {
+    return datasource.getAllSchemes();
   }
 }

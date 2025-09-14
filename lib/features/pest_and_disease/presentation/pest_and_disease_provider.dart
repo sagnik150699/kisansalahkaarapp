@@ -1,52 +1,34 @@
-import 'dart:io';
+import 'dart:async';
+import 'dart:typed_data';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../domain/pest_and_disease_model.dart';
+import '../domain/pest_and_disease_repository.dart';
+import '../data/pest_and_disease_datasource.dart';
 
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:myapp/features/pest_and_disease/domain/pest_and_disease_model.dart';
-import 'package:myapp/features/pest_and_disease/domain/pest_and_disease_repository.dart';
+final pestAndDiseaseDatasourceProvider = Provider((ref) => PestAndDiseaseDatasource());
 
-enum PestAndDiseaseState { initial, loading, loaded, error }
+final pestAndDiseaseRepositoryProvider = Provider<PestAndDiseaseRepository>((ref) {
+  final datasource = ref.watch(pestAndDiseaseDatasourceProvider);
+  return PestAndDiseaseRepositoryImpl(datasource: datasource);
+});
 
-class PestAndDiseaseProvider with ChangeNotifier {
+final pestAndDiseaseProvider = StateNotifierProvider.autoDispose<PestAndDiseaseNotifier, AsyncValue<PestAndDisease?>>((ref) {
+  final repository = ref.watch(pestAndDiseaseRepositoryProvider);
+  return PestAndDiseaseNotifier(repository);
+});
+
+class PestAndDiseaseNotifier extends StateNotifier<AsyncValue<PestAndDisease?>> {
   final PestAndDiseaseRepository _repository;
 
-  PestAndDiseaseProvider(this._repository);
+  PestAndDiseaseNotifier(this._repository) : super(const AsyncData(null));
 
-  PestAndDiseaseState _state = PestAndDiseaseState.initial;
-  PestAndDiseaseState get state => _state;
-
-  PestAndDisease? _pestAndDisease;
-  PestAndDisease? get pestAndDisease => _pestAndDisease;
-
-  String _errorMessage = '';
-  String get errorMessage => _errorMessage;
-
-  File? _image;
-  File? get image => _image;
-
-  Future<void> pickImage(ImageSource source) async {
-    final pickedFile = await ImagePicker().pickImage(source: source);
-
-    if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      notifyListeners();
-    }
-  }
-
-  Future<void> identifyPestOrDisease() async {
-    if (_image == null) return;
-
-    _state = PestAndDiseaseState.loading;
-    notifyListeners();
-
+  Future<void> identifyPestOrDisease(Uint8List image) async {
+    state = const AsyncValue.loading();
     try {
-      _pestAndDisease = await _repository.identifyPestOrDisease(_image!);
-      _state = PestAndDiseaseState.loaded;
-    } catch (e) {
-      _errorMessage = e.toString();
-      _state = PestAndDiseaseState.error;
+      final result = await _repository.identifyPestOrDisease(image);
+      state = AsyncValue.data(result);
+    } catch (e, s) {
+      state = AsyncValue.error(e, s);
     }
-
-    notifyListeners();
   }
 }

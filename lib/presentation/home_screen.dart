@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                     Text(
                       'Your AI companion for smart farming.',
                       style: textTheme.titleLarge?.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.7),
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 32),

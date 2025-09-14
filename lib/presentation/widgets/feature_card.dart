@@ -34,15 +34,15 @@ class _FeatureCardState extends State<FeatureCard> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: _isHovered
-                  ? [colorScheme.primary.withOpacity(0.8), colorScheme.primary]
-                  : [colorScheme.surface, colorScheme.surface.withOpacity(0.9)],
+                  ? [colorScheme.primary, colorScheme.primary]
+                  : [colorScheme.surface, colorScheme.surface],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: colorScheme.shadow.withOpacity(_isHovered ? 0.4 : 0.2),
+                color: colorScheme.shadow,
                 blurRadius: _isHovered ? 16 : 8,
                 offset: Offset(0, _isHovered ? 8 : 4),
               ),
