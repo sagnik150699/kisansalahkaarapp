@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:myapp/features/crop_recommendations/data/crop_recommendation_datasource.dart';
 import 'package:myapp/features/crop_recommendations/domain/crop_recommendation_model.dart';
 import 'package:myapp/features/crop_recommendations/domain/crop_recommendation_repository.dart';

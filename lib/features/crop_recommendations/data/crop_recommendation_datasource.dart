@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:firebase_ai/firebase_ai.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/features/crop_recommendations/domain/crop_recommendation_model.dart';
 
 class CropRecommendationDatasource {
-  final model = FirebaseVertexAI.instance.generativeModel(model: 'gemini-1.5-flash');
+  final GenerativeModel model = FirebaseAI.googleAI(auth: FirebaseAuth.instance)
+      .generativeModel(model: 'gemini-1.5-flash');
 
   Future<CropRecommendation> getRecommendation({
     required String location,

@@ -133,7 +133,7 @@ class CropRecommendationScreen extends ConsumerWidget {
         filled: true,
         fillColor: Colors.grey.shade100,
       ),
-      value: value,
+      initialValue: value,
       items: items.map((item) {
         return DropdownMenuItem(value: item, child: Text(item));
       }).toList(),

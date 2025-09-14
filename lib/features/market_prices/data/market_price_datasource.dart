@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:firebase_ai/firebase_ai.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/features/market_prices/domain/market_price_model.dart';
 
 class MarketPriceDatasource {
-  final model = FirebaseVertexAI.instance.generativeModel(model: 'gemini-1.5-flash');
+  final GenerativeModel model = FirebaseAI.googleAI(auth: FirebaseAuth.instance)
+      .generativeModel(model: 'gemini-1.5-flash');
 
   Future<List<MarketPrice>> getMarketPrices(String location) async {
     try {
