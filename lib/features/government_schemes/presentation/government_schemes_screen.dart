@@ -57,6 +57,9 @@ class GovernmentSchemesScreen extends ConsumerWidget {
                     final scheme = schemes[index];
                     return Card(
                       elevation: 2,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      color: colorScheme.surface,
+                      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       child: ExpansionTile(
                         title: Text(
                           scheme.name,

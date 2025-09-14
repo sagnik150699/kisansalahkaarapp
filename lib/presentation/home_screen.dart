@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              colorScheme.primary.withOpacity(0.1),
+              colorScheme.primary.withAlpha(25),
               colorScheme.surface,
             ],
             begin: Alignment.topCenter,

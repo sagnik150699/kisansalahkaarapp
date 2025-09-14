@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kisan_salahkaar/features/pest_and_disease/domain/pest_and_disease_model.dart';
-import 'package:kisan_salahkaar/features/pest_and_disease/domain/pest_and_disease_repository.dart';
-import 'package:kisan_salahkaar/features/pest_and_disease/data/pest_and_disease_datasource.dart';
+import '../domain/pest_and_disease_model.dart';
+import '../domain/pest_and_disease_repository.dart';
+import '../data/pest_and_disease_datasource.dart';
 
 class PestAndDiseaseScreen extends StatefulWidget {
   const PestAndDiseaseScreen({super.key});
@@ -103,6 +103,9 @@ class _PestAndDiseaseScreenState extends State<PestAndDiseaseScreen> {
                       final pest = snapshot.data!;
                       return Card(
                         elevation: 4,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        color: colorScheme.surface,
+                        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
                           child: Column(

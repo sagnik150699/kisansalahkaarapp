@@ -45,8 +45,7 @@ class CropRecommendationScreen extends ConsumerWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Manually trigger a refresh
-                    ref.refresh(cropRecommendationProvider);
+                    ref.read(cropRecommendationProvider);
                   },
                   child: const Text('Get Recommendation'),
                 ),
@@ -54,7 +53,10 @@ class CropRecommendationScreen extends ConsumerWidget {
               const SizedBox(height: 32),
               recommendationAsync.when(
                 data: (recommendation) => Card(
-                  elevation: 4,
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  color: colorScheme.surface,
+                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Column(

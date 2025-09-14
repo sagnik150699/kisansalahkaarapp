@@ -39,12 +39,6 @@ class AppTheme {
           textStyle: textTheme.labelLarge,
         ),
       ),
-      cardTheme: CardTheme(
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        color: colorScheme.surface,
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -92,12 +86,6 @@ class AppTheme {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           textStyle: textTheme.labelLarge,
         ),
-      ),
-      cardTheme: CardTheme(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        color: colorScheme.surface,
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
