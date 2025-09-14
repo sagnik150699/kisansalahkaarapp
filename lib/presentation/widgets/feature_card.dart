@@ -1,69 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class FeatureCard extends StatefulWidget {
-  final String title;
+class FeatureCard extends StatelessWidget {
   final IconData icon;
-  final VoidCallback onTap;
+  final String title;
+  final String route;
+  final Color color;
 
   const FeatureCard({
     super.key,
-    required this.title,
     required this.icon,
-    required this.onTap,
+    required this.title,
+    required this.route,
+    required this.color,
   });
 
   @override
-  State<FeatureCard> createState() => _FeatureCardState();
-}
-
-class _FeatureCardState extends State<FeatureCard> {
-  bool _isHovered = false;
-
-  @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: _isHovered
-                  ? [colorScheme.primary, colorScheme.primary]
-                  : [colorScheme.surface, colorScheme.surface],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: colorScheme.shadow,
-                blurRadius: _isHovered ? 16 : 8,
-                offset: Offset(0, _isHovered ? 8 : 4),
-              ),
-            ],
-          ),
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: InkWell(
+        onTap: () => context.go(route),
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                widget.icon,
+                icon,
                 size: 48,
-                color: _isHovered ? colorScheme.onPrimary : colorScheme.primary,
+                color: color,
               ),
               const SizedBox(height: 16),
               Text(
-                widget.title,
-                style: textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: _isHovered ? colorScheme.onPrimary : colorScheme.onSurface,
-                ),
+                title,
                 textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ],
           ),

@@ -1,80 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myapp/features/weather_report/presentation/weather_report_provider.dart';
+import 'package:kisan_salahkaar/features/weather_report/presentation/weather_report_provider.dart';
 
 class WeatherReportScreen extends ConsumerWidget {
   const WeatherReportScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final weatherAsync = ref.watch(weatherReportProvider);
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
+    final weatherReport = ref.watch(weatherReportProvider);
 
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: colorScheme.primary.withAlpha(50)),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Weather Report'),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Weather Report',
-            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          weatherAsync.when(
-            data: (weather) => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: weatherReport.when(
+        data: (report) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildWeatherInfo(
-                  context,
-                  icon: Icons.thermostat,
-                  label: 'Temperature',
-                  value: '${weather.temperature}°C',
+                Text(
+                  'Current Weather',
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                _buildWeatherInfo(
-                  context,
-                  icon: Icons.water_drop,
-                  label: 'Humidity',
-                  value: '${weather.humidity}%',
+                Text('Temperature: ${report.temperature}'),
+                Text('Humidity: ${report.humidity}'),
+                Text('Wind: ${report.wind}'),
+                const SizedBox(height: 20),
+                Text(
+                  '24-Hour Forecast',
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                _buildWeatherInfo(
-                  context,
-                  icon: Icons.air,
-                  label: 'Wind',
-                  value: weather.wind,
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: report.forecast.length,
+                    itemBuilder: (context, index) {
+                      final forecast = report.forecast[index];
+                      return ListTile(
+                        title: Text(forecast.time),
+                        subtitle: Text(forecast.condition),
+                        trailing: Text(forecast.temperature),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) => Center(
-              child: Text(
-                'Failed to load weather: $err',
-                style: textTheme.bodyMedium?.copyWith(color: colorScheme.error),
-              ),
-            ),
-          ),
-        ],
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stackTrace) => Center(child: Text('Error: $error')),
       ),
-    );
-  }
-
-  Widget _buildWeatherInfo(BuildContext context, {required IconData icon, required String label, required String value}) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Column(
-      children: [
-        Icon(icon, color: colorScheme.primary, size: 32),
-        const SizedBox(height: 8),
-        Text(label, style: textTheme.bodyMedium),
-        const SizedBox(height: 4),
-        Text(value, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-      ],
     );
   }
 }

@@ -2,99 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static const Color primarySeedColor = Color(0xFF2E7D32); // A deep green for a farming app
+  static const Color primaryColor = Color(0xFF4CAF50);
+  static const Color secondaryColor = Color(0xFF8BC34A);
+  static const Color backgroundColor = Color(0xFFF5F5F5);
+  static const Color cardColor = Color(0xFFFFFFFF);
+  static const Color textColor = Color(0xFF333333);
 
-  static ThemeData get lightTheme {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: primarySeedColor,
-      brightness: Brightness.light,
-      primary: primarySeedColor,
-      secondary: Colors.amber,
-      surface: Colors.grey[50],
-    );
-
-    final textTheme = GoogleFonts.latoTextTheme(ThemeData.light().textTheme).copyWith(
-      displayLarge: GoogleFonts.oswald(fontSize: 57, fontWeight: FontWeight.bold, color: colorScheme.primary),
-      titleLarge: GoogleFonts.montserrat(fontSize: 22, fontWeight: FontWeight.w600, color: colorScheme.onSurface),
-      bodyMedium: GoogleFonts.lato(fontSize: 14, color: colorScheme.onSurface),
-      labelLarge: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w500, color: colorScheme.onPrimary),
-    );
-
+  static ThemeData get theme {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: colorScheme,
-      textTheme: textTheme,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primaryColor,
+        secondary: secondaryColor,
+        surface: backgroundColor,
+      ),
+      textTheme: GoogleFonts.latoTextTheme().apply(
+        bodyColor: textColor,
+        displayColor: textColor,
+      ),
+      cardTheme: CardThemeData(
+        color: cardColor,
+        elevation: 1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
       appBarTheme: AppBarTheme(
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
-        elevation: 4,
-        titleTextStyle: textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary),
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        titleTextStyle: GoogleFonts.roboto(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          foregroundColor: colorScheme.onPrimary,
-          backgroundColor: colorScheme.primary,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          textStyle: textTheme.labelLarge,
-        ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colorScheme.primary),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colorScheme.primary, width: 2),
-        ),
-      ),
-    );
-  }
-
-  static ThemeData get darkTheme {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: primarySeedColor,
-      brightness: Brightness.dark,
-      primary: primarySeedColor,
-      secondary: Colors.amber,
-      surface: Colors.grey[850],
-    );
-
-    final textTheme = GoogleFonts.latoTextTheme(ThemeData.dark().textTheme).copyWith(
-      displayLarge: GoogleFonts.oswald(fontSize: 57, fontWeight: FontWeight.bold, color: colorScheme.primary),
-      titleLarge: GoogleFonts.montserrat(fontSize: 22, fontWeight: FontWeight.w600, color: colorScheme.onSurface),
-      bodyMedium: GoogleFonts.lato(fontSize: 14, color: colorScheme.onSurface),
-      labelLarge: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w500, color: colorScheme.onPrimary),
-    );
-
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: colorScheme,
-      textTheme: textTheme,
-      appBarTheme: AppBarTheme(
-        backgroundColor: colorScheme.surface,
-        foregroundColor: colorScheme.onSurface,
-        elevation: 4,
-        titleTextStyle: textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: colorScheme.onPrimary,
-          backgroundColor: colorScheme.primary,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          textStyle: textTheme.labelLarge,
-        ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colorScheme.primary),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colorScheme.primary, width: 2),
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
       ),
     );

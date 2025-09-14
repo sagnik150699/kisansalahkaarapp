@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/features/crop_recommendations/presentation/crop_recommendation_screen.dart';
-import 'package:myapp/features/market_prices/presentation/market_price_screen.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
+import 'package:kisan_salahkaar/presentation/widgets/feature_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -8,37 +8,73 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Agri-Assistant'),
-        backgroundColor: Colors.green.shade900,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CropRecommendationScreen()),
-                );
-              },
-              child: const Text('Get Crop Recommendations'),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/background.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MarketPriceScreen()),
-                );
-              },
-              child: const Text('View Market Prices'),
+          ),
+          SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Kisan Salahkaar',
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                  ),
+                ),
+                Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    padding: const EdgeInsets.all(16),
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    children: const [
+                      FeatureCard(
+                        icon: LucideIcons.leaf,
+                        title: 'Crop Recommendations',
+                        route: '/crop-recommendations',
+                        color: Colors.green,
+                      ),
+                      FeatureCard(
+                        icon: LucideIcons.bug,
+                        title: 'Pest & Disease ID',
+                        route: '/pest-and-disease',
+                        color: Colors.red,
+                      ),
+                      FeatureCard(
+                        icon: LucideIcons.trendingUp,
+                        title: 'Market Prices',
+                        route: '/market-prices',
+                        color: Colors.orange,
+                      ),
+                      FeatureCard(
+                        icon: LucideIcons.cloudSun,
+                        title: 'Weather Report',
+                        route: '/weather-report',
+                        color: Colors.blue,
+                      ),
+                      FeatureCard(
+                        icon: LucideIcons.building,
+                        title: 'Government Schemes',
+                        route: '/government-schemes',
+                        color: Colors.purple,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

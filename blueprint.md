@@ -1,55 +1,60 @@
-# AgriTech App Blueprint
+# Kisan Salahkaar - App Blueprint
 
 ## Overview
-The AgriTech App, named "Kisan Salahkaar," is an AI-powered companion designed to assist farmers with smart farming practices. It provides features such as crop recommendations, government scheme information, and pest and disease identification. The app aims to deliver a modern, intuitive, and accessible user experience with a strong focus on Material Design 3 principles and responsive design.
 
-## Project Outline
+Kisan Salahkaar is a comprehensive mobile and web application designed to empower farmers with timely and relevant agricultural information. The app acts as a digital advisor, providing crucial data and AI-powered recommendations to help farmers make informed decisions, improve crop yield, and increase profitability.
 
-### Style and Design
-*   **Theming**: Comprehensive Material Design 3 theming with light and dark mode support, managed by `ThemeProvider` (using `provider`).
-    *   **Color Scheme**: Utilizes `ColorScheme.fromSeed` with `primaryColor` (vibrant green) and `secondaryColor` (complementary orange).
-    *   **Typography**: Employs `google_fonts` (Lato and Oswald) for a consistent and expressive `TextTheme`.
-    *   **Component Theming**: Custom styles for `AppBar`, `ElevatedButton`, and `Card` for a cohesive look.
-    *   **Dynamic Colors**: Text colors in `TextTheme` and `AppBarTheme` dynamically adapt to the selected theme (light/dark) using `ColorScheme` properties to ensure visual balance.
-*   **Aesthetics**: Modern components, visually balanced layout, clean spacing, and polished styles.
-    *   **Fonts**: Expressive and relevant typography with varied font sizes for emphasis.
-    *   **Color**: Wide range of color concentrations and hues for a vibrant and energetic feel.
-    *   **Visual Effects**: Multi-layered drop shadows for depth, "lifted" cards with soft, deep shadows.
-    *   **Iconography**: Integration of icons for enhanced understanding and navigation.
-    *   **Interactivity**: Buttons, checkboxes, sliders, etc., feature glow effects with elegant color use.
-*   **Responsiveness**: Mobile-responsive design adapting to different screen sizes for optimal experience on mobile and web.
-*   **Images and Assets**: Placeholder images are used when real images are not available. A previous background image was removed to resolve a rendering crash.
-*   **Iconography**: Material Design icons are used throughout the application.
+## Style and Design
 
-### Features
-*   **Crop Recommendations**: Provides AI-driven crop suggestions.
-*   **Government Schemes**: Information on relevant government agricultural schemes.
-*   **Pest & Disease Identification**: Assists in identifying pests and diseases affecting crops.
-*   **Theme Toggle**: User-facing toggle for switching between light, dark, and system themes.
+*   **Theme**: The app will use a Material 3 design system with a green and earthy color palette, reflecting the agricultural theme.
+*   **Typography**: We will use the `google_fonts` package to implement clean and readable fonts like 'Roboto' and 'Lato'.
+*   **Iconography**: The app will use modern and intuitive icons from the `lucide_flutter` package to enhance usability.
+*   **Layout**: The layout will be clean, card-based, and easy to navigate, ensuring a user-friendly experience even for non-tech-savvy users.
 
-### Architecture
-*   **State Management**: `provider` is used for app-wide state management (e.g., `ThemeProvider`). `ValueNotifier` and `ValueListenableBuilder` are used for local state management when appropriate.
-*   **Routing**: `go_router` is implemented for declarative navigation, deep linking, and web support, defining routes for the home screen, crop recommendations, government schemes, and pest & disease identification.
-*   **Data Flow**: Unidirectional data flow from data sources through services/repositories to state management and then to the UI.
-*   **Separation of Concerns**: Project is structured with distinct layers: presentation, domain, and data, organized by feature.
+## Features
 
-### Accessibility (A11Y) Standards
-*   Designed to be accessible to a wide variety of users with different physical and mental abilities, age groups, education levels, and learning styles. (Specific implementations will be detailed as features are developed).
+### Implemented Features
 
-## Resolved Application Crash and Build Failures
+*   **Home Dashboard**: A central screen providing access to all major features of the application.
+*   **AI-Powered Crop Recommendations**: Suggests the top 3 crops to plant based on the user's location, soil type, and local weather patterns. Includes a conversational follow-up chat.
+*   **Instant Pest & Disease Identification**: Users can upload a photo of a distressed plant for AI-powered diagnosis. Provides detailed organic and inorganic remedies and suggests commercially available products. Includes a follow-up chat.
+*   **Real-Time Localized Data**:
+    *   **Weather Reports**: Provides a current weather summary and a 24-hour forecast.
+    *   **Market Prices**: Displays current market prices for common crops in nearby markets.
+*   **Government Schemes**: Lists and details relevant government schemes for farmers.
+*   **Enhanced Accessibility & Ease of Use**:
+    *   **Multilingual Support**: The interface and all AI responses will be available in multiple Indian languages.
+    *   **Geolocation**: Automatically detects the user's location.
+    *   **Voice-to-Text**: Allows users to dictate follow-up questions.
+    *   **Text-to-Speech**: AI-generated text responses can be read aloud.
 
-### Summary of Fixes
-The application was consistently crashing on startup due to an `ImageCodecException` and was subsequently failing to build due to a `No space left on device` error. Both issues have been resolved.
+## Gemini Model Integration
 
-### Steps Taken
-1.  **Diagnosed Image Crash**: Identified that the application was crashing during startup while trying to decode an image. The error pointed to `background.jpg`.
-2.  **Removed Problematic Image**:
-    *   The `background.jpg` file, which was causing the decoding error, was temporarily disabled by renaming it to `background_old.jpg`.
-    *   The code in `lib/presentation/home_screen.dart` was modified to remove the `BoxDecoration` that referenced this image.
-    *   Text colors on the home screen were adjusted to ensure they were visible against the new, plain background.
-3.  **Resolved Disk Space Error**:
-    *   The build process was failing with a "No space left on device" error.
-    *   Executed `df -h` to confirm that the `/ephemeral` and `/home` partitions were full.
-    *   Ran `flutter clean` to remove build artifacts.
-    *   Manually deleted the Gradle cache directory (`/home/user/.gradle`) to free up critical disk space.
-4.  **Confirmation**: After applying the fixes, the application was successfully built and run on the emulator, confirming that both the startup crash and the build errors are resolved. The app is now in a stable state.
+*   **`gemini-1.5-pro` / `gemini-1.5-flash`**:
+    *   `generateCropRecommendationsFlow`: Analyzes user's location, soil, and weather data.
+    *   `identifyPestOrDiseaseFlow`: Multimodal analysis of plant images and text prompts.
+    *   `followUp...Flows`: Context-aware conversational follow-up for all AI features.
+*   **`gemini-1.5-flash`**:
+    *   `getWeatherReportFlow` & `getMarketPricesFlow`: Fetches and formats real-time data.
+    *   `getLocationDetailsFlow`: Determines city/district and weather patterns from coordinates.
+    *   `guessSoilTypeFlow`: Guesses soil type based on location.
+*   **`gemini-1.5-flash-preview-tts`**:
+    *   `textToSpeechFlow`: Converts AI text responses to speech.
+
+## Current Plan
+
+1.  **Update App Identity**: Change the app name to "Kisan Salahkaar" and update the app icons and favicon.
+2.  **Establish Core Structure**:
+    *   Set up the main application widget, theme, and routing in `main.dart`, `lib/core/router.dart`, and `lib/core/theme.dart`.
+3.  **Design the Home Screen**:
+    *   Create a visually appealing and functional home screen in `lib/presentation/home_screen.dart` with `FeatureCard` widgets for navigation.
+4.  **Implement Feature Screens (UI First)**:
+    *   Build the user interface for each feature: Crop Recommendations, Pest & Disease ID, Weather Report, and Market Prices.
+5.  **Integrate Gemini Models**:
+    *   Set up the Firebase AI SDK.
+    *   Implement the backend logic for each feature by calling the appropriate Gemini models.
+    *   Add the conversational chat feature.
+    *   Integrate text-to-speech and voice-to-text functionalities.
+6.  **Refine and Format**:
+    *   Run `flutter format .` to ensure consistent code styling.
+    *   Address any analysis issues found by `flutter analyze`.
