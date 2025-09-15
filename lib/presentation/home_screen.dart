@@ -11,10 +11,14 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/background.jpg'),
-                fit: BoxFit.cover,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.secondary,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
           ),
@@ -61,12 +65,6 @@ class HomeScreen extends StatelessWidget {
                         title: 'Weather Report',
                         route: '/weather-report',
                         color: Colors.blue,
-                      ),
-                      FeatureCard(
-                        icon: LucideIcons.building,
-                        title: 'Government Schemes',
-                        route: '/government-schemes',
-                        color: Colors.purple,
                       ),
                     ],
                   ),
