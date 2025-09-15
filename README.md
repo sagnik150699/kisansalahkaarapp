@@ -1,81 +1,52 @@
 # Kisan Salahkaar - AI Farming Companion
 
-"Kisan Salahkaar" is an AI-powered mobile application built with Flutter to assist farmers in making informed decisions for their agricultural practices. The app provides crop recommendations, information about government schemes, and tools for identifying pests and diseases.
+"Kisan Salahkaar" is an AI-powered, cross-platform application built with Flutter to assist farmers in making intelligent, data-driven decisions for their agricultural practices. The app serves as a digital advisor, leveraging Google's Gemini models to provide real-time, localized, and actionable insights.
 
 ## Features
 
-*   **Crop Recommendations**: Get intelligent crop suggestions based on your location and soil type.
-*   **Government Schemes**: Stay updated with the latest agricultural schemes and subsidies from the government.
-*   **Pest & Disease Identification**: Upload images of affected crops to identify pests and diseases and get instant remedies.
-*   **Modern UI/UX**: A clean, intuitive, and responsive user interface built with Material Design 3.
-*   **Light & Dark Mode**: Seamlessly switch between light and dark themes for comfortable viewing.
+*   **AI-Powered Crop Recommendations**: Enter your location, soil type, and weather patterns to receive AI-generated suggestions for the top 3 most suitable crops. Engage in a conversational follow-up to ask questions about the recommendations.
+*   **Instant Pest & Disease Identification**: Upload a photo of an affected plant, and the AI will diagnose the specific pest or disease. The app provides detailed organic and inorganic remedies, along with suggestions for commercially available products.
+*   **Real-Time Market Prices**: Get up-to-date market prices for common crops in your vicinity to help you decide the best time and place to sell your produce.
+*   **Localized Weather Reports**: Access a current weather summary and a 24-hour forecast for your specific location to plan your farming activities effectively.
+*   **Government Schemes**: Stay informed about the latest agricultural schemes, subsidies, and support programs offered by the government.
 
 ## Technology Stack
 
 *   **Frontend**: Flutter
-*   **Backend & AI**: Firebase (using `firebase_ai` for generative AI features)
-*   **Routing**: `go_router`
-*   **State Management**: `provider`
-*   **Typography**: `google_fonts`
+*   **AI & Generative Models**: Google Gemini (via `firebase_ai` package)
+    *   `gemini-1.5-pro` for complex multimodal tasks (Pest & Disease ID).
+    *   `gemini-1.5-flash` for text generation, data retrieval, and chat.
+*   **Backend & Authentication**: Firebase
+*   **State Management**: Riverpod
 
 ## Getting Started
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/kisan-salahkaar.git
-    cd kisan-salahkaar
+    git clone https://github.com/your-name/your-repo
     ```
-
 2.  **Install dependencies:**
     ```bash
     flutter pub get
     ```
-
-3.  **Run the app:**
+3.  **Run the application:**
     ```bash
     flutter run
     ```
 
-## Project Structure
+## Build for Production
 
-The project follows a feature-first architecture, with each feature having its own `data`, `domain`, and `presentation` layers.
+*   **Android (APK):**
+    ```bash
+    flutter build apk --release
+    ```
+*   **Web:**
+    ```bash
+    flutter build web --release
+    ```
 
-```
-lib
-├── core/
-│   ├── router.dart
-│   └── theme.dart
-├── features/
-│   ├── crop_recommendations/
-│   │   ├── data/
-│   │   ├── domain/
-│   │   └── presentation/
-│   ├── government_schemes/
-│   │   ├── data/
-│   │   ├── domain/
-│   │   └── presentation/
-│   └── pest_and_disease/
-│       ├── data/
-│       ├── domain/
-│       └── presentation/
-├── presentation/
-│   ├── home_screen.dart
-│   ├── providers/
-│   └── widgets/
-└── main.dart
-```
+## Credits
 
-## Visual Design
-
-The app is designed with a modern and visually appealing aesthetic, following Material Design 3 principles. It features a vibrant color palette, expressive typography, and interactive UI components to provide an engaging user experience.
-
-## Accessibility (A11Y)
-
-The app is designed to be accessible to all users, with a focus on clear navigation, readable text, and support for various screen sizes.
-
-## Author
-
-**Sagnik Bhattacharya**
-*   **LinkedIn**: [linkedin.com/in/sagnik-bhattacharya-916b9463/](https://linkedin.com/in/sagnik-bhattacharya-916b9463/)
-*   **Udemy**: [udemy.com/user/sagnik-bhattacharya-5/](https://www.udemy.com/user/sagnik-bhattacharya-5/)
-*   **YouTube**: [youtube.com/@sagnikteaches](https://www.youtube.com/@sagnikteaches)
+*   **Author:** Your Name ([your-site.example.com](https://your-site.example.com))
+*   **Source Code:** [https://github.com/your-name/your-repo](https://github.com/your-name/your-repo)
+*   **License:** Apache-2.0
