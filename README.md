@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sagnik150699/Sagnik-Bhattacharya/master/public/sagnik-bhattacharya.png" alt="Sagnik Bhattacharya" width="180">
+</p>
+**Sagnik Bhattacharya**
+Website: [sagnikbhattacharya.com](https://sagnikbhattacharya.com)
+
 # Kisan Salahkaar - AI Farming Companion
 
 "Kisan Salahkaar" is an AI-powered, cross-platform application built with Flutter to assist farmers in making intelligent, data-driven decisions for their agricultural practices. The app serves as a digital advisor, leveraging Google's Gemini models to provide real-time, localized, and actionable insights.
